@@ -20,7 +20,9 @@ async def post_request(
     }
     if additional_headers is not None:
         headers = {**headers, **additional_headers}
-    async with httpx.AsyncClient(app=app, base_url=TEST_APP_BASE_URL) as client:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url=TEST_APP_BASE_URL
+    ) as client:
         return await client.post(
             url=endpoint,
             headers=headers,
